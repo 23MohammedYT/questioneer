@@ -1,0 +1,466 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Cairo", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 700;
+	font-style: normal;
+	font-variation-settings:
+	"slnt" 0;
+}
+
+::-webkit-Scrollbar {
+	display: none;
+}
+
+body, html {
+	height: 100%;
+}
+
+.background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-position: 100% 100%;
+	background: linear-gradient(45deg, blue, red);
+	z-index: -1;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	padding: 20px;
+	color: white;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+h1 {
+	font-size: 2.5rem;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.answer-list {
+	list-style-type: none;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+	width: 100%; /* Full width of the page */
+	gap: 10px;
+}
+
+.answer-list li {
+	padding: 20px;
+	background-color: rgba(255, 255, 255, 0.1);
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	transition: background-color 0.3s ease;
+}
+
+.answer-list li:hover {
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.answer-buttons.correct {
+    background-color: rgba(34, 139, 34, 0.8); /* Green background for correct */
+    color: white;
+    border: 2px solid green;
+}
+
+.answer-buttons.incorrect {
+    background-color: rgba(255, 0, 0, 0.8); /* Red background for incorrect */
+    color: white;
+    border: 2px solid red;
+}
+
+.hidden-answer {
+	visibility: hidden;
+}
+
+.question-image {
+	width: 200px;
+	margin-bottom: 20px;
+}
+
+.answer-list.with-images li {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.images-container {
+	margin-bottom: 10px;
+}
+
+.images-container .answer-image {
+	width: 150px;
+	height: 150px;
+	margin-bottom: 10px;
+}
+
+.header {
+    position: absolute;
+    padding: 20px;
+    top: 10px;
+    color: white;
+    font-size: 40px;
+    background-color: rgba(255, 255, 255, 0.3); /* Original background color */
+    border-radius: 500px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 1s ease, color 0.5s ease; /* Smooth background and color transition */
+	z-index: 100;
+}
+
+/* Edit button */
+#add {
+    left: 20px;
+}
+
+#add:hover {
+    background: linear-gradient(270deg, teal, #66ff66); /* Gradient on hover */
+    background-size: 200% 100%; /* Set background size for animation */
+    animation: slide 1s forwards; /* Apply the slide animation on hover */
+}
+
+/* Report button */
+#settings {
+    right: 20px;
+}
+
+#settings:hover {
+    background: linear-gradient(270deg, crimson, lightcoral); /* Gradient on hover */
+    background-size: 200% 100%; /* Set background size for animation */
+    animation: slide 1s forwards; /* Apply the slide animation on hover */
+}
+
+/* Keyframes for sliding background animation */
+@keyframes slide {
+    0% {
+        background-position: 100% 0; /* Start from the right */
+    }
+    100% {
+        background-position: 0 0; /* End at the left */
+    }
+}
+
+#google_translate_element {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius: 500px; /* Make it circular */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	padding: 15px;
+	width: 50px; /* Initial width */
+	height: 50px; /* Initial height */
+	display: flex;
+	align-items: center; /* Center content vertically */
+	justify-content: center; /* Center content horizontally */
+	transition: width 0.3s, height 0.3s, padding 0.3s; /* Transition for expansion */
+	overflow: hidden; /* Hide overflow when collapsed */
+	cursor: pointer; /* Change cursor to pointer */
+}
+
+#google_translate_element.expanded {
+	width: 200px; /* Expanded width */
+	height: 100px; /* Expanded height */
+	padding: 10px; /* Adjust padding when expanded */
+	border-radius: 20px;
+}
+
+.translate-icon {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius: 500px; /* Make it circular */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	padding: 15px;
+	display: flex;
+	align-items: center; /* Center content vertically */
+	justify-content: center; /* Center content horizontally */
+	transition: width 0.3s, height 0.3s, padding 0.3s; /* Transition for expansion */
+	overflow: hidden; /* Hide overflow when collapsed */
+	cursor: pointer; /* Change cursor to pointer */
+	z-index: 1;
+}
+
+#google_translate_element.expanded .translate-icon {
+	opacity: 0; /* Hide icon when expanded */
+}
+
+#type1, #type2, #type3 {
+	display: none;
+}
+
+.question-container, .account-create {
+	position: fixed; /* Fixed position */
+	background-color: rgba(255, 255, 255, 0.9); /* Background color */
+	border-radius: 8px; /* Rounded corners */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow effect */
+	padding: 20px; /* Padding inside the container */
+	width: 50%; /* Width of the container */
+	height: 500px; /* Auto height to fit content */
+	z-index: 1000; /* Ensure it's on top of other content */
+	overflow: auto; /* Enable scrolling */
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+}
+
+.form-title {
+	font-size: 18px; /* Title font size */
+	margin-bottom: 15px; /* Space below title */
+	text-align: center; /* Center title */
+}
+
+.input-field {
+	width: 100%; /* Full width */
+	padding: 10px; /* Padding */
+	margin: 10px 0; /* Space between fields */
+	border: 1px solid #ccc; /* Border */
+	border-radius: 5px; /* Rounded corners */
+	font-size: 16px; /* Font size */
+}
+
+.submit-button {
+	background-color: #007BFF; /* Button color */
+	color: white; /* Button text color */
+	padding: 10px; /* Button padding */
+	border: none; /* No border */
+	border-radius: 5px; /* Rounded corners */
+	cursor: pointer; /* Pointer cursor on hover */
+	transition: background-color 0.3s; /* Transition effect for hover */
+	width: 100%; /* Full width */
+}
+
+.submit-button:hover {
+	background-color: #0056b3; /* Darker blue on hover */
+}
+
+.question-type {
+	margin: 10px auto; /* Space between question type and other fields */
+	display: flex;
+	justify-content: space-between;
+	width: 50%;
+}
+
+.image-input {
+	display: none; /* Hidden by default */
+	margin: 10px 0; /* Space between fields */
+}
+
+#blackback {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	opacity: .5;
+	display: none;
+}
+
+.answer-container {
+	position: relative;
+}
+
+.answer-container label {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-10px);
+	right: 0;
+	display: none;
+}
+
+/* Container for the custom checkbox */
+.custom-checkbox {
+	display: block;
+	position: relative;
+	padding-left: 35px;
+	margin-bottom: 12px;
+	cursor: pointer;
+	font-size: 22px;
+	user-select: none;
+}
+
+/* Hide the default checkbox */
+.custom-checkbox input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+/* Create a custom checkmark */
+.checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 25px;
+	width: 25px;
+	background-color: gray;
+    border-radius: 5px;
+}
+
+/* Change background color on hover */
+.custom-checkbox:hover input ~ .checkmark {
+	background-color: #ccc;
+}
+
+/* Change background color when checked */
+.custom-checkbox input:checked ~ .checkmark {
+	background-color: #2196F3;
+}
+
+/* Create the checkmark indicator */
+.checkmark:after {
+	content: "";
+	position: absolute;
+	display: none;
+}
+
+/* Show the checkmark when checked */
+.custom-checkbox input:checked ~ .checkmark:after {
+	display: block;
+}
+
+/* Style the checkmark */
+.custom-checkbox .checkmark:after {
+	left: 9px;
+	top: 5px;
+	width: 5px;
+	height: 10px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	transform: rotate(45deg);
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	pointer-events: none;
+}
+
+.mainMenu {
+	position: absolute;
+	width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.logo {
+    width: 50%;
+    margin-bottom: 40px;
+	transform: rotate(45deg);
+	animation: scaleUpDown 2s infinite ease-in-out;
+}
+
+@keyframes scaleUpDown {
+    0%, 100% {
+        transform: scale(1); /* Original size */
+    }
+    50% {
+        transform: scale(1.1); /* Scaled up */
+    }
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.menu-btn {
+	padding: 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007acc;
+    border: none;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+.menu-btn:hover {
+    background-color: #005f99;
+    transform: scale(1.05);
+}
+
+.menu-btn:active {
+    transform: scale(0.98);
+}
+
+.login, .register {
+	position: absolute;
+	top: 15%;
+	width: 100%;
+	padding: 10px;
+	overflow: auto;
+	transition: .5s;
+}
+
+.login {
+	left: 0;
+}
+
+.register {
+	left: 100%;
+}
+
+.register-mode {
+	position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+	width: 30%;
+	border: 2px solid black;
+	border-radius: 50px;
+	padding: 5px;
+}
+
+.register-mode span {
+	width: 100px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.register-mode #dragger {
+	position: absolute;
+	height: 100%;
+	background-color: black;
+	width: 25%;
+	top: 0;
+	left: 0;
+	border-radius: 50px;
+	width: 100px;
+	transition: .5s;
+	z-index: -1;
+}
